@@ -6,11 +6,12 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:33 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/01/24 16:38:41 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/01/25 20:55:44 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 
 void	ft_lstadd_back_gnl(t_list_gnl *head, char *content)
 {
@@ -72,7 +73,7 @@ int	get_size(t_list_gnl *head)
 	size = 0;
 	lst = head;
 	i = 0;
-	while (lst != NULL && lst->content[i] != '\0')
+	while (lst != NULL && lst->content[i] != '\n')
 	{
 		if (lst->content[i] == '\0')
 		{
@@ -86,4 +87,23 @@ int	get_size(t_list_gnl *head)
 		}
 	}
 	return (size + 1);
+}
+
+char *recup_gnl(int fd)
+{
+	close(fd);
+	char* str;
+	char* tmp;
+	str = NULL;
+	tmp = NULL;	
+	while (1)
+	{
+		str = ft_strjoin(str, get_next_line(fd, 0));
+		if (!str)
+		{
+			free(str);
+			break ;
+		}
+		free(str);
+	}
 }

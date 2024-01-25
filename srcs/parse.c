@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:07:18 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/01/24 20:59:26 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/01/25 20:45:28 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ int check_rectangle(char **tab)
 {
 	int i;
 	int cnt;
-	int size;
+	size_t size;
 
 	i = 0;
+	cnt = 0;
 	size = ft_strlen(tab[0]);
 	while(tab[i])
 	{
@@ -59,7 +60,7 @@ int check_col(char **tab)
 {
 	int i;
 	int j;
-	int tmp[81];
+	int tmp[15];
 
 	i = 0;
 	while (tab[i])
@@ -67,24 +68,25 @@ int check_col(char **tab)
 		j = 0;
 		while (tab[i][j])
 		{
-			if (ft_strchr("01CEP", tab[i][j]))
-				tmp[ft_strchr("01CEP", tab[i][j])[0]]++;
-			else
+			if (!ft_strchr("01CEP", tab[i][j]))
 				return (1);
+			tmp[ft_strchr("01CEP", tab[i][j])[0] - 67]++;
 			j++;
 		}
 		i++;
 	}
-	if (tmp['E'] != 1 || tmp['P'] != 1 || tmp['C'] < 1)
+	if (tmp['E' - 67] != 1 || tmp['P' - 67] != 1 || tmp['C' - 67] < 1)
 		return (2);
 	return (0);
 }
+
 int	parse(int fd)
 {
 	char **tab;
 	char *str;
 	
 	str = get_next_line(fd, 0);
+	printf("str = %s", str);
 	if (!str)
 		return (1);
 	get_next_line(123123, 1);
@@ -94,5 +96,13 @@ int	parse(int fd)
 	if (check_rectangle(tab))
 		return (3);
 	if (check_col(tab))
-		return (4);	
+		return (4);
+	return (0);	
+}
+
+int main()
+{
+	int fd = open("../maps/map.ber", O_RDWR);
+	printf("%d\n", parse(fd));
+	close(fd);
 }

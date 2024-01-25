@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:44 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/01/24 16:52:59 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:47:47 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ char	*get_next_line(int fd, int moha)
 		return (free(res), t = h, h = NULL, free(t->content), free(t), NULL);
 	return (res);
 }
+
+
 
 // int	main(void)
 // {

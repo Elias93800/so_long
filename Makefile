@@ -6,7 +6,7 @@
 #    By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/23 13:29:07 by emehdaou          #+#    #+#              #
-#    Updated: 2024/01/23 19:07:10 by emehdaou         ###   ########.fr        #
+#    Updated: 2024/01/25 18:19:47 by emehdaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,16 +30,16 @@ CFLAGS			=	-Wall -Werror -Wextra
 all				:	${NAME}
 
 $(NAME): $(OBJS)
-	@make -C /includes/libft
-	@mv includes/libft/libft.a .
+	@make -C libft
+	@mv libft/libft.a .
 	cc $(OBJS) mlx/libmlx.a mlx/libmlx_Linux.a -L. -lXext -L. -lX11 ${LIBFT} -o $(NAME)
 
 clean			:
-					make clean -C includes/libft
+					make clean -C libft
 					rm -rf ${OBJS}
 
 fclean			:	clean
-					make fclean -C includes/libft
+					make fclean -C libft
 					rm -rf ${LIBFT}
 					rm -rf ${NAME}
 

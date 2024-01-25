@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:12:20 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/01/23 13:27:46 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:04:05 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 #include "../mlx/mlx_int.h"
 
 
-int	main(void)
-{
-	void	*mlx;
-	void	*mlx_win;
+// int	main(void)
+// {
+// 	void	*mlx;
+// 	void	*mlx_win;
 
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	mlx_loop(mlx);
-}
+// 	mlx = mlx_init();
+// 	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
+// 	mlx_loop(mlx);
+// }
