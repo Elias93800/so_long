@@ -6,19 +6,19 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 17:35:41 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/01/24 16:44:14 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/01/27 01:22:04 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <fcntl.h>
 # include <limits.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h>
-# include <fcntl.h>
 # include <string.h>
+# include <unistd.h>
 # define HEXBASE_MIN "0123456789abcdef"
 # define HEXBASE_MAJ "0123456789ABCDEF"
 
@@ -39,6 +39,7 @@ typedef struct s_list_gnl
 	struct s_list_gnl	*next;
 }						t_list_gnl;
 
+char					*recup_gnl(int fd);
 char					*get_next_line(int fd, int moha);
 void					ft_lstadd_back_gnl(t_list_gnl *head, char *content);
 t_list_gnl				*ft_lstnew_gnl(char *content);
@@ -90,7 +91,7 @@ char					*ft_substr(char const *s, unsigned int start,
 							size_t len);
 char					**ft_split(char const *s, char c);
 void					free_tab(char **tab);
-char					*ft_strjoin(char const *s1, char const *s2);
+char					*ft_strjoin(char *s1, char *s2);
 char					*ft_strmapi(char const *s, char (*f)(unsigned int,
 								char));
 

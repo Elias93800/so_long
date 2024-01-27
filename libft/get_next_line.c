@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:44 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/01/25 18:47:47 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:51:36 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*create_line(t_list_gnl *head, char *res)
 		i = 0;
 		while (current->content[i])
 		{
-			if (current->content[i] == '\0')
+			if (current->content[i] == '\n')
 			{
 				res[j++] = current->content[i];
 				break ;
@@ -134,28 +134,25 @@ char	*get_next_line(int fd, int moha)
 	return (res);
 }
 
-
-
 // int	main(void)
 // {
-// 	int fd = open("../test", O_RDWR);
+// 	int fd = open("get_next_line.h", O_RDWR);
 // 	// close(fd);
 // 	// fd = open("moha.txt", O_RDWR);		return (-1);
-// 	// int i = 0;
-// 	printf("%s\n", get_next_line(fd, 0));
-// 	// while (20)
-// 	// {
-// 	// 	char *str = get_next_line(fd, 0);
-// 	// 	if (!str)
-// 	// 	{
-// 	// 		free(str);
-// 	// 		break ;
-// 	// 	}
-// 	// 	// printf("--------\n");
-// 	// 	printf("%s", str);
-// 	// 	// printf("--------\n");
-// 	// 	free(str);
-// 	// 	i++;
-// 	// }
+// 	int i = 0;
+// 	while (20)
+// 	{
+// 		char *str = get_next_line(fd);
+// 		if (!str)
+// 		{
+// 			free(str);
+// 			break ;
+// 		}
+// 		// printf("--------\n");
+// 		printf("%s", str);
+// 		// printf("--------\n");
+// 		free(str);
+// 		i++;
+// 	}
 // 	close(fd);
 // }

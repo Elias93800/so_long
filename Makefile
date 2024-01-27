@@ -6,7 +6,7 @@
 #    By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/23 13:29:07 by emehdaou          #+#    #+#              #
-#    Updated: 2024/01/25 18:19:47 by emehdaou         ###   ########.fr        #
+#    Updated: 2024/01/27 00:35:55 by emehdaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ LIBFT			=	libft.a
 
 SRCS			=	srcs/main.c \
 					srcs/parse.c \
+					srcs/flood_fill.c \
 
 OBJS			=	${SRCS:.c=.o}
 
@@ -25,7 +26,7 @@ HEAD			=	-I includes
 
 CC				=	cc
 
-CFLAGS			=	-Wall -Werror -Wextra
+CFLAGS			=	-g3 -Wall -Werror -Wextra
 
 all				:	${NAME}
 
