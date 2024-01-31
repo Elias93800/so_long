@@ -6,7 +6,7 @@
 #    By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/23 13:29:07 by emehdaou          #+#    #+#              #
-#    Updated: 2024/01/27 00:35:55 by emehdaou         ###   ########.fr        #
+#    Updated: 2024/01/31 01:58:18 by emehdaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ LIBFT			=	libft.a
 SRCS			=	srcs/main.c \
 					srcs/parse.c \
 					srcs/flood_fill.c \
+					srcs/move.c \
 
 OBJS			=	${SRCS:.c=.o}
 

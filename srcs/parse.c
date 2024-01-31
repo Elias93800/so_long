@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:07:18 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/01/27 01:22:40 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/01/30 22:27:49 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,32 +26,31 @@ int	check_newline(char *str)
 	return (0);
 }
 
-int	check_rectangle(char **tab)
+int	check_rectangle(t_map *map)
 {
-	int		i;
-	int		cnt;
 	size_t	size;
 
-	i = 0;
-	cnt = 0;
-	size = ft_strlen(tab[0]);
-	while (tab[i])
+	map->length = 0;
+	map->height = 0;
+	size = ft_strlen(map->tab[0]);
+	while (map->tab[map->length])
 	{
-		if (size != ft_strlen(tab[i]))
-			return (1);
-		if ((tab[i][0] != '1') || (tab[i++][size - 1] != '1'))
-			return (2);
-		cnt++;
+		if (size != ft_strlen(map->tab[map->length]))
+			return (0);
+		if ((map->tab[map->length][0] != '1') || (map->tab[map->length++][size
+				- 1] != '1'))
+			return (0);
+		map->height++;
 	}
-	i = 0;
-	while (tab[0][i])
-		if (tab[0][i++] != '1')
-			return (4);
-	i = 0;
-	while (tab[cnt - 1][i])
-		if (tab[cnt - 1][i++] != '1')
-			return (5);
-	return (0);
+	map->length = 0;
+	while (map->tab[0][map->length])
+		if (map->tab[0][map->length++] != '1')
+			return (0);
+	map->length = 0;
+	while (map->tab[map->height - 1][map->length])
+		if (map->tab[map->height - 1][map->length++] != '1')
+			return (0);
+	return (1);
 }
 
 int	check_col(char **tab)
@@ -78,33 +77,31 @@ int	check_col(char **tab)
 	return (1);
 }
 
-int	*get_index(char **tab)
+void	get_index(t_map *map)
 {
-	int			i;
-	int			j;
-	static int	index[4] = {0};
+	int	i;
+	int	j;
 
 	i = 0;
-	while (tab[i])
+	while (map->tab[i])
 	{
 		j = 0;
-		while (tab[i][j])
+		while (map->tab[i][j])
 		{
-			if (tab[i][j] == 'P')
+			if (map->tab[i][j] == 'P')
 			{
-				index[0] = i;
-				index[1] = j;
+				map->player.y = i;
+				map->player.x = j;
 			}
-			if (tab[i][j] == 'E')
+			if (map->tab[i][j] == 'E')
 			{
-				index[2] = i;
-				index[3] = j;
+				map->exit.y = i;
+				map->exit.x = j;
 			}
 			j++;
 		}
 		i++;
 	}
-	return (index);
 }
 
 void	print_tab(char **tab)
@@ -116,38 +113,30 @@ void	print_tab(char **tab)
 		printf("%s\n", tab[i++]);
 }
 
-int	parse(int fd)
+int	parse(t_map *map, int fd)
 {
-	char	**tab;
 	char	*str;
-	int		*index;
-	char	**tmp;
+	t_map	tmp;
 
 	str = recup_gnl(fd);
-	if (!str)
-		return (free(str), 1);
-	printf("[%p]\n", str);
+	if (!close(fd) && !str)
+		return (free(str), 0);
 	if (check_newline(str))
-		return (free(str), 2);
-	tab = ft_split(str, '\n');
-	if (check_rectangle(tab))
-		return (free_tab(tab), free(str), 3);
-	if (!check_col(tab))
-		return (free_tab(tab), free(str), 4);
-	tmp = ft_split(str, '\n');
+		return (free(str), 0);
+	map->tab = ft_split(str, '\n');
+	if (!check_rectangle(map))
+		return (free_tab(map->tab), free(str), 0);
+	if (!check_col(map->tab))
+		return (free_tab(map->tab), free(str), 0);
+	tmp.tab = ft_split(str, '\n');
 	free(str);
-	index = get_index(tab);
-	backtrack(tmp, index, index[1], index[0]);
-	if (check_tab(tmp, index))
-		return (free_tab(tmp), free_tab(tab), 5);
-	return (free_tab(tmp), free_tab(tab), 0);
-}
-
-int	main(void)
-{
-	int	fd;
-
-	fd = open("maps/map.ber", O_RDWR);
-	printf("%d\n", parse(fd));
-	close(fd);
+	get_index(map);
+	tmp.player.x = map->player.x;
+	tmp.player.y = map->player.y;
+	tmp.exit.x = map->exit.x;
+	tmp.exit.y = map->exit.y;
+	backtrack(&tmp, tmp.player.x, tmp.player.y);
+	if (check_tab(&tmp))
+		return (free_tab(tmp.tab), free_tab(map->tab), 0);
+	return (free_tab(tmp.tab), 1);
 }
