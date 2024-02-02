@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:44 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/01/26 14:51:36 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/02 05:04:06 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ char	*get_next_line(int fd, int moha)
 	int					byte_read;
 	t_list_gnl			*t;
 
-	if (fd == -1 || moha)
-		return (res = NULL, free(res), NULL);
+	if (fd == -1 || fd > 1024 || moha)
+		return (res = NULL, free(res), free(h->content), free(h), NULL);
 	if (!h)
 	{
 		h = ft_lstnew_gnl(malloc(1));

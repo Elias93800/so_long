@@ -5,29 +5,45 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/01/31 02:00:09 by emehdaou         ###   ########.fr       */
+/*   Created: 2024/02/02 04:04:11 by emehdaou          #+#    #+#             */
+/*   Updated: 2024/02/02 04:20:12 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/so_long.h"
 #include "../mlx/mlx.h"
 #include "../mlx/mlx_int.h"
 
+void	ft_init_img(t_map *map)
+{
+	int	r;
+
+	map->img['1'] = (char *){mlx_xpm_file_to_image(map->mlx, "s/brick.xpm", &r,
+			&r)};
+	if (!map->img['1'])
+		ft_close(map, 0);
+	map->img['0'] = (char *){mlx_xpm_file_to_image(map->mlx, "s/stone.xpm", &r,
+			&r)};
+	if (!map->img['0'])
+		ft_close(map, 1);
+	map->img['E'] = (char *){mlx_xpm_file_to_image(map->mlx, "s/door3.xpm", &r,
+			&r)};
+	if (!map->img['E'])
+		ft_close(map, 2);
+	map->img['C'] = (char *){mlx_xpm_file_to_image(map->mlx, "s/jmleft.xpm", &r,
+			&r)};
+	if (!map->img['C'])
+		ft_close(map, 3);
+	map->img['P'] = (char *){mlx_xpm_file_to_image(map->mlx, "s/mgamil.xpm", &r,
+			&r)};
+	if (!map->img['P'])
+		ft_close(map, 4);
+}
+
 void	ft_view(t_map *map, void *mlx, void *mlx_win)
 {
-	int			i;
-	int			j;
-	void		*img;
-	int			r;
-	static char	*text['P' + 1] = {
-	['1'] = "s/brick.xpm",
-	['0'] = "s/stone.xpm",
-	['E'] = "s/door3.xpm",
-	['C'] = "s/jmleft.xpm",
-	['P'] = "s/mgamil.xpm",
-	};
+	int	i;
+	int	j;
 
 	i = 0;
 	while (map->tab[i])
@@ -35,46 +51,50 @@ void	ft_view(t_map *map, void *mlx, void *mlx_win)
 		j = 0;
 		while (map->tab[i][j])
 		{
-			img = mlx_xpm_file_to_image(mlx, text[(int)map->tab[i][j]], &r, &r);
-			mlx_put_image_to_window(mlx, mlx_win, img, j * 64, i * 64);
+			mlx_put_image_to_window(mlx, mlx_win, map->img[(int)map->tab[i][j]],
+				j * 64, i * 64);
 			j++;
 		}
 		i++;
 	}
 }
 
-int key_hook(int keycode, t_map *map)
+int	key_hook(int keycode, t_map *map)
 {
+	if (keycode == 65307)
+		return (mlx_loop_end(map->mlx));
 	ft_move(map, keycode);
-	printf("%i\n", keycode);
+	ft_view(map, map->mlx, map->win);
+	if (map->finish)
+		ft_close(map, 5);
 	return (0);
 }
 
-
-
 void	ft_game(t_map *map)
 {
-	void	*mlx;
-	void	*mlx_win;
-
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, map->length * 64, map->height * 64, "binks");
-	mlx_hook(mlx_win, 0, 1L << 0, key_hook, map);
-	mlx_key_hook(mlx_win, key_hook, map);
-	// printf("%i %i\n", map->player.x, map->player.y);
-	ft_view(map, mlx, mlx_win);
-	mlx_loop(mlx);
+	ft_view(map, map->mlx, map->win);
+	mlx_hook(map->win, 0, 1L << 0, key_hook, map);
+	mlx_key_hook(map->win, key_hook, map);
+	mlx_hook(map->win, 17, 0, ft_close, map);
+	mlx_loop(map->mlx);
 }
 
 int	main(int ac, char **av)
 {
 	int		fd;
-	t_map map;
+	t_map	map;
 
 	if (ac != 2 || is_ber(av[1]))
 		return (1);
 	fd = open(av[1], O_RDWR);
 	if (!parse(&map, fd))
 		return (0);
+	map.lock = 1;
+	map.finish = 0;
+	map.mlx = mlx_init();
+	map.win = mlx_new_window(map.mlx, map.length * 64, map.height * 64,
+			"binks");
+	ft_init_img(&map);
 	ft_game(&map);
+	ft_close(&map, 5);
 }

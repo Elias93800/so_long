@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:07:18 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/01/30 22:27:49 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/02 04:15:00 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,28 +53,29 @@ int	check_rectangle(t_map *map)
 	return (1);
 }
 
-int	check_col(char **tab)
+t_map	*check_col(t_map *map)
 {
 	int			i;
 	int			j;
 	static int	tmp[33] = {0};
 
 	i = 0;
-	while (tab[i])
+	while (map->tab[i])
 	{
 		j = 0;
-		while (tab[i][j])
+		while (map->tab[i][j])
 		{
-			if (!ft_strchr("01CEP", tab[i][j]))
+			if (!ft_strchr("01CEP", map->tab[i][j]))
 				return (0);
-			tmp[ft_strchr("01CEP", tab[i][j])[0] - 48]++;
+			tmp[ft_strchr("01CEP", map->tab[i][j])[0] - 48]++;
 			j++;
 		}
 		i++;
 	}
 	if ((tmp['E' - 48] != 1) || (tmp['P' - 48] != 1) || (tmp['C' - 48] < 1))
-		return (0);
-	return (1);
+		return (NULL);
+	map->col = tmp['C' - 48];
+	return (map);
 }
 
 void	get_index(t_map *map)
@@ -119,24 +120,25 @@ int	parse(t_map *map, int fd)
 	t_map	tmp;
 
 	str = recup_gnl(fd);
-	if (!close(fd) && !str)
+	if (!close(fd) || !str)
 		return (free(str), 0);
 	if (check_newline(str))
 		return (free(str), 0);
 	map->tab = ft_split(str, '\n');
+	if (!map->tab)
+		return (free(str), 0);
 	if (!check_rectangle(map))
 		return (free_tab(map->tab), free(str), 0);
-	if (!check_col(map->tab))
+	if (!check_col(map))
 		return (free_tab(map->tab), free(str), 0);
 	tmp.tab = ft_split(str, '\n');
-	free(str);
+	if (!tmp.tab)
+		return (free_tab(map->tab), free(str), 0);
 	get_index(map);
-	tmp.player.x = map->player.x;
-	tmp.player.y = map->player.y;
-	tmp.exit.x = map->exit.x;
-	tmp.exit.y = map->exit.y;
+	copy_tab(map, &tmp);
+	free(str);
 	backtrack(&tmp, tmp.player.x, tmp.player.y);
-	if (check_tab(&tmp))
+	if (check_exit(&tmp) || tmp.col != 0)
 		return (free_tab(tmp.tab), free_tab(map->tab), 0);
 	return (free_tab(tmp.tab), 1);
 }

@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:33 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/01/29 23:53:00 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/02 05:11:56 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,21 +88,28 @@ int	get_size(t_list_gnl *head)
 	return (size + 1);
 }
 
-
-char *recup_gnl(int fd)
+char	*recup_gnl(int fd)
 {
-	char* str;
-	char* tmp;
+	char	*str;
+	char	*tmp;
+	int i;
 	str = NULL;
+	if (fd == -1)
+		return (NULL);
 	while (1)
 	{
+		i = -1;
 		tmp = get_next_line(fd, 0);
 		if (!tmp)
-			break;
+			break ;
+		while (tmp[++i])
+			if (!ft_isalnum(tmp[i]) && tmp[i] != '\n')
+				return(free(tmp), get_next_line(13, 1), NULL);
 		str = ft_strjoin(str, tmp);
+		if (!str)
+			return (free(str), NULL);
 	}
 	close(fd);
-	get_next_line(93, 1);
-	printf("[%p]\n", str);
+	// get_next_line(93, 1);
 	return (str);
 }
