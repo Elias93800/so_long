@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 00:46:39 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/02/02 04:05:01 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/03 15:50:45 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,15 @@ void	ft_move(t_map *map, int keycode)
 
 int	ft_close(t_map *map, int i)
 {
+	char	*str;
+	
 	free_tab(map->tab);
-	if (i >= 1)
-		mlx_destroy_image(map->mlx, map->img['1']);
-	if (i >= 2)
-		mlx_destroy_image(map->mlx, map->img['0']);
-	if (i >= 3)
-		mlx_destroy_image(map->mlx, map->img['E']);
-	if (i >= 4)
-		mlx_destroy_image(map->mlx, map->img['C']);
-	if (i >= 5)
-		mlx_destroy_image(map->mlx, map->img['P']);
+	str = "10ECP";
+	while (i > 0)
+	{
+		mlx_destroy_image(map->mlx, map->img[(int)str[i - 1]]);
+		i--;
+	}
 	mlx_clear_window(map->mlx, map->win);
 	mlx_destroy_window(map->mlx, map->win);
 	mlx_destroy_display(map->mlx);

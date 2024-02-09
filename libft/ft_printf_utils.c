@@ -6,23 +6,11 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 22:22:30 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/01/22 07:19:56 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/02 17:10:35 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-size_t	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
 
 void	ft_putstr(char const *s, int fd, int *cnt)
 {

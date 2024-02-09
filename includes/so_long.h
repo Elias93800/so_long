@@ -6,17 +6,18 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:21:03 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/02/02 04:05:15 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/02 19:09:07 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# define BERERROR "Extension must be .ber"
-# define RECERROR "Map must be rectangle"
-# define CLOERROR "Map must be closed"
-# define FINERROR ""
+# define A "Extension must be .ber"
+# define B "Map must be rectangle"
+# define C "Map must be closed"
+# define D "Map must be valid"
+# define E "Map must have one Exit one starting Position and at least one Collectible"
 
 # include "../libft/libft.h"
 # include "../mlx/mlx.h"
@@ -40,6 +41,7 @@ typedef struct s_map
 	int		col;
 	int		lock;
 	int		finish;
+	int		cnt;
 	char	*img[81];
 }			t_map;
 

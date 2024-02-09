@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 04:04:11 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/02/02 04:20:12 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/03 17:25:07 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,17 @@ int	key_hook(int keycode, t_map *map)
 {
 	if (keycode == 65307)
 		return (mlx_loop_end(map->mlx));
-	ft_move(map, keycode);
-	ft_view(map, map->mlx, map->win);
+	if (keycode >= 65361 && keycode <= 65364)
+	{
+		map->cnt++;
+		ft_move(map, keycode);
+		ft_view(map, map->mlx, map->win);
+	}
 	if (map->finish)
+	{
+		ft_printf("Score : %i\n", map->cnt);
 		ft_close(map, 5);
+	}
 	return (0);
 }
 
@@ -75,7 +82,7 @@ void	ft_game(t_map *map)
 	ft_view(map, map->mlx, map->win);
 	mlx_hook(map->win, 0, 1L << 0, key_hook, map);
 	mlx_key_hook(map->win, key_hook, map);
-	mlx_hook(map->win, 17, 0, ft_close, map);
+	mlx_hook(map->win, 17, 0, mlx_loop_end, map->mlx);
 	mlx_loop(map->mlx);
 }
 
@@ -89,12 +96,16 @@ int	main(int ac, char **av)
 	fd = open(av[1], O_RDWR);
 	if (!parse(&map, fd))
 		return (0);
+	map.cnt = 0;
 	map.lock = 1;
 	map.finish = 0;
 	map.mlx = mlx_init();
+	if (!map.mlx)
+		return (free_tab(map.tab), 0);
 	map.win = mlx_new_window(map.mlx, map.length * 64, map.height * 64,
 			"binks");
 	ft_init_img(&map);
 	ft_game(&map);
+	// ft_printf("score : %i\n", map.cnt);
 	ft_close(&map, 5);
 }
