@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 04:04:11 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/02/03 17:25:07 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:55:08 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,23 @@ void	ft_view(t_map *map, void *mlx, void *mlx_win)
 
 int	key_hook(int keycode, t_map *map)
 {
+	t_pos tmp;
+
+	tmp = map->player;	
 	if (keycode == 65307)
 		return (mlx_loop_end(map->mlx));
 	if (keycode >= 65361 && keycode <= 65364)
 	{
-		map->cnt++;
 		ft_move(map, keycode);
 		ft_view(map, map->mlx, map->win);
+		if (map->player.x != tmp.x || map->player.y != tmp.y)
+		{	
+			map->cnt++;
+			ft_printf("Score: %d\n", map->cnt);	
+		}
 	}
 	if (map->finish)
-	{
-		ft_printf("Score : %i\n", map->cnt);
 		ft_close(map, 5);
-	}
 	return (0);
 }
 
@@ -91,9 +95,11 @@ int	main(int ac, char **av)
 	int		fd;
 	t_map	map;
 
-	if (ac != 2 || is_ber(av[1]))
+	if (ac != 2 )
 		return (1);
 	fd = open(av[1], O_RDWR);
+	if (fd == -1 || is_ber(av[1]))
+		return (ft_printf("Error\nFile error\n"), 0);
 	if (!parse(&map, fd))
 		return (0);
 	map.cnt = 0;
@@ -106,6 +112,5 @@ int	main(int ac, char **av)
 			"binks");
 	ft_init_img(&map);
 	ft_game(&map);
-	// ft_printf("score : %i\n", map.cnt);
 	ft_close(&map, 5);
 }

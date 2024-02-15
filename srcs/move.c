@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 00:46:39 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/02/03 15:50:45 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:53:52 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_move(t_map *map, int keycode)
 int	ft_close(t_map *map, int i)
 {
 	char	*str;
-	
+
 	free_tab(map->tab);
 	str = "10ECP";
 	while (i > 0)

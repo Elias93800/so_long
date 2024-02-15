@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:33 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/02/02 05:11:56 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:34:31 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ char	*recup_gnl(int fd)
 {
 	char	*str;
 	char	*tmp;
-	int i;
+	int		i;
+
 	str = NULL;
 	if (fd == -1)
 		return (NULL);
@@ -104,12 +105,11 @@ char	*recup_gnl(int fd)
 			break ;
 		while (tmp[++i])
 			if (!ft_isalnum(tmp[i]) && tmp[i] != '\n')
-				return(free(tmp), get_next_line(13, 1), NULL);
+				return (free(tmp), get_next_line(13, 1), NULL);
 		str = ft_strjoin(str, tmp);
 		if (!str)
 			return (free(str), NULL);
 	}
 	close(fd);
-	// get_next_line(93, 1);
 	return (str);
 }

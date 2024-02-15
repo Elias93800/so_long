@@ -6,18 +6,14 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:21:03 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/02/02 19:09:07 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:35:35 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# define A "Extension must be .ber"
-# define B "Map must be rectangle"
-# define C "Map must be closed"
-# define D "Map must be valid"
-# define E "Map must have one Exit one starting Position and at least one Collectible"
+# define ERR "Map must be valid"
 
 # include "../libft/libft.h"
 # include "../mlx/mlx.h"

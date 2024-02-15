@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:07:18 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/02/02 19:11:59 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:35:31 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,14 @@ void	get_index(t_map *map)
 	}
 }
 
-void	print_tab(char **tab)
-{
-	int	i;
+// void	print_tab(char **tab)
+// {
+// 	int	i;
 
-	i = 0;
-	while (tab[i])
-		printf("%s\n", tab[i++]);
-}
+// 	i = 0;
+// 	while (tab[i])
+// 		printf("%s\n", tab[i++]);
+// }
 
 int	parse(t_map *map, int fd)
 {
@@ -121,16 +121,16 @@ int	parse(t_map *map, int fd)
 
 	str = recup_gnl(fd);
 	if (!close(fd) || !str)
-		return (ft_printf("Error\n%s\n", C), free(str), 0);
+		return (ft_printf("Error\n%s\n", ERR), free(str), 0);
 	if (check_newline(str))
-		return (ft_printf("Error\n%s\n", C), free(str), 0);
+		return (ft_printf("Error\n%s\n", ERR), free(str), 0);
 	map->tab = ft_split(str, '\n');
 	if (!map->tab)
 		return (free(str), 0);
 	if (!check_rectangle(map))
-		return (ft_printf("Error\n%s\n", B), free_tab(map->tab), free(str), 0);
+		return (ft_printf("Error\n%s\n", ERR), free_tab(map->tab), free(str), 0);
 	if (!check_col(map))
-		return (ft_printf("Error\n%s\n", E), free_tab(map->tab), free(str), 0);
+		return (ft_printf("Error\n%s\n", ERR), free_tab(map->tab), free(str), 0);
 	tmp.tab = ft_split(str, '\n');
 	if (!tmp.tab)
 		return (free_tab(map->tab), free(str), 0);
@@ -138,7 +138,7 @@ int	parse(t_map *map, int fd)
 	copy_tab(map, &tmp);
 	backtrack(&tmp, tmp.player.x, tmp.player.y);
 	if (check_exit(&tmp) || tmp.col != 0)
-		return (ft_printf("Error\n%s\n", D), free(str), free_tab(tmp.tab),
+		return (ft_printf("Error\n%s\n", ERR), free(str), free_tab(tmp.tab),
 			free_tab(map->tab), 0);
 	return (free_tab(tmp.tab), free(str), 1);
 }
